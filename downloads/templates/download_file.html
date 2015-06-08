@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head lang="en">
+        <link rel="stylesheet" type="text/css" href="{% static "styles/style.css" %}">
+        <meta charset="UTF-8">
+        <title>
+            Your Download Link is Ready
+        </title>
+    </head>
+
+    <body>
+        <div class="main">
+            <p>Your Download Link: <strong>{{ d_link }}</strong>
+            <a href="{% static d_link %}">Click to Download</a>
+            </p>
+            <a href="/downloads/history">History</a>
+        </div>
+    </body>
+</html>

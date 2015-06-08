@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head lang="en">
+        <link rel="stylesheet" type="text/css" href="{% static "styles/style.css" %}">
+        <meta charset="UTF-8">
+        <title>
+            Download History
+        </title>
+    </head>
+
+    <body>
+        <div class="main">
+            {% if songs %}
+                <p>You have downloaded {{ songs|length }} song{{ songs|pluralize }}.</p>
+                <ul>
+                    {% for song in songs %}
+                    <li>{{ song.title }}</li>
+                    <a href="{% static song.local_link %}">Click to Download</a>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>0 Downloaded Song</p>
+            {% endif %}
+        </div>
+    </body>
+</html>
