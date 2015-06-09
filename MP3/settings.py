@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'rest_framework',
     'downloads',
+    'User',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -122,3 +123,5 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     STATIC_PATH,
 )
+
+AUTH_USER_MODEL = "User.User"

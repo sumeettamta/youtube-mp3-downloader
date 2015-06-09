@@ -1,4 +1,5 @@
 from django.db import models
+from User.models import User
 
 class Songs(models.Model):
     """
@@ -18,6 +19,9 @@ class UserHistory(models.Model):
     """
     User History
     """
-    #user = models.ForeignKey('User')
+    user = models.ForeignKey(User)
     song = models.ForeignKey('Songs')
     datetime = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True

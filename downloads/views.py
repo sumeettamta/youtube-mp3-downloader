@@ -1,8 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from downloads.models import Songs
-from django.views.generic import View
-from .forms import DownloadForm
 import datetime
 import youtube_dl
 import os
@@ -60,20 +58,3 @@ def userhistory(request):
     songs = Songs.objects.all()
     print songs
     return render(request, 'history.html', {'songs': songs})
-
-class DownloadView(View):
-    form_class = DownloadForm
-    initial = {'key': 'value'}
-    template_name = 'download.html'
-
-    def get(self, request, *args, **kwargs):
-        form = self.form_class(initial=self.initial)
-        return render(request, self.template_name, {'d_link': d_link, 'query': q})
-
-    def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST)
-        if form.is_valid():
-            # <process form cleaned data>
-            return HttpResponseRedirect('/success/')
-
-        return render(request, self.template_name, {'error': True})
