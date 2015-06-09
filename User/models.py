@@ -19,15 +19,22 @@ class User(AbstractBaseUser):
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, blank=True, default="")
     dob = models.DateField(_('dob'), blank=True, default="9999-01-01")
 
+<<<<<<< HEAD
 
     is_staff = models.BooleanField(_('staff status'), default=False,
         help_text=_('Designates whether the user can log into this admin site.'))
+=======
+    #objects = manager.CustomUserManager()
+>>>>>>> 2ed739edfd5f81fb5d365d4737e03de3c220daeb
     is_active = models.BooleanField(_('active'), default=False,
                                           help_text=_('Designates whether this user should be treated as active. '
                                                       'Unselect this instead of deleting accounts.'))
 
+<<<<<<< HEAD
     objects = manager.CustomUserManager()
 
+=======
+>>>>>>> 2ed739edfd5f81fb5d365d4737e03de3c220daeb
     USERNAME_FIELD = 'email'
     #username = 'email'
     def get_full_name(self):
@@ -70,6 +77,7 @@ class User(AbstractBaseUser):
         User.password_change(self)
         super(User, self).save(*args, **kwargs)
 
+<<<<<<< HEAD
     def get_short_name(self):
         """
         Returns the short name for the user.
@@ -90,3 +98,5 @@ class User(AbstractBaseUser):
     def has_module_perms(self, app_label):
         return self.is_staff
 
+=======
+>>>>>>> 2ed739edfd5f81fb5d365d4737e03de3c220daeb

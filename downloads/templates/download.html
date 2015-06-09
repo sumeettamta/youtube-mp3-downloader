@@ -11,14 +11,17 @@
     <body>
         <div class="main">
             {% if error %}
-                <p style="color: red;">Please enter the download link.</p>
+                <p style="color: red;">Please enter the correct download link.</p>
             {% endif %}
             <form action="download/" method="get">
-                <input type="text" name="q">
+                <input type="text" name="dl">
                 <input type="submit" value="Download">
             </form>
             <br>
             <a href="/downloads/history">History</a>
+            <br>
+            <br>
+            <a href="/downloads/search">Search</a>
         </div>
     </body>
 </html>
