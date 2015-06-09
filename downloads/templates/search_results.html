@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div class="main">
+            {% if videos or channels or playlists %}
+                <p>You have found {{ videos|length }} video{{ videos|pluralize }}.</p>
+                <ul>
+                    {% for video in videos %}
+                    <li>{{ video }}</li>
+                    {% endfor %}
+                </ul>
+
+                <p>You have found {{ channels|length }} channel{{ channels|pluralize }}.</p>
+                <ul>
+                    {% for channel in channels %}
+                    <li>{{ channel }}</li>
+                    {% endfor %}
+                </ul>
+
+                <p>You have found {{ playlists|length }} playlist{{ playlists|pluralize }}.</p>
+                <ul>
+                    {% for playlist in playlists %}
+                    <li>{{ playlists }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>0 Search</p>
+            {% endif %}
+            <br>
+            <a href="/downloads/download_page">Download</a>
+            <br>
+            <br>
+            <a href="/downloads/search">Search</a>
+            <br>
+            <br>
+            <a href="/downloads/history">History</a>
+        </div>
+</body>
+</html>
