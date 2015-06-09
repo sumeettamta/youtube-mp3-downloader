@@ -14,7 +14,10 @@ def login(request):
     c = {}
     c.update(csrf(request))
 <<<<<<< HEAD
+<<<<<<< HEAD
     #print c
+=======
+>>>>>>> 2ed739edfd5f81fb5d365d4737e03de3c220daeb
 =======
 >>>>>>> 2ed739edfd5f81fb5d365d4737e03de3c220daeb
     return render_to_response('login.html',c)
@@ -22,8 +25,14 @@ def login(request):
 def auth_view(request):
     username = request.POST.get('username','')
 <<<<<<< HEAD
+<<<<<<< HEAD
     password = request.POST.get('pwd','')
     user = auth.authenticate(username=username,password=password)
+=======
+    password = request.POST.get('password','')
+    user = auth.authenticate(username=username,password=password)
+
+>>>>>>> 2ed739edfd5f81fb5d365d4737e03de3c220daeb
 =======
     password = request.POST.get('password','')
     user = auth.authenticate(username=username,password=password)
@@ -37,7 +46,11 @@ def auth_view(request):
 def loggedin(request):
     return render_to_response('loggedin.html',
 <<<<<<< HEAD
+<<<<<<< HEAD
                                 {'full_name': request.user.first_name})
+=======
+                                {'full_name': request.user.username})
+>>>>>>> 2ed739edfd5f81fb5d365d4737e03de3c220daeb
 =======
                                 {'full_name': request.user.username})
 >>>>>>> 2ed739edfd5f81fb5d365d4737e03de3c220daeb
@@ -66,7 +79,10 @@ def register(request):
 class UserCreateForm(UserCreationForm):
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 2ed739edfd5f81fb5d365d4737e03de3c220daeb
     def save(self):
         user = models.User()
         user.email="andjna2d"
@@ -75,6 +91,9 @@ class UserCreateForm(UserCreationForm):
         user.save()
         return user
 
+<<<<<<< HEAD
+>>>>>>> 2ed739edfd5f81fb5d365d4737e03de3c220daeb
+=======
 >>>>>>> 2ed739edfd5f81fb5d365d4737e03de3c220daeb
     class Meta:
         model = models.User
