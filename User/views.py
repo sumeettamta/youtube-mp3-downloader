@@ -15,7 +15,10 @@ def login(request):
     c.update(csrf(request))
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     #print c
+=======
+>>>>>>> 2ed739edfd5f81fb5d365d4737e03de3c220daeb
 =======
 >>>>>>> 2ed739edfd5f81fb5d365d4737e03de3c220daeb
 =======
@@ -26,8 +29,14 @@ def auth_view(request):
     username = request.POST.get('username','')
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     password = request.POST.get('pwd','')
     user = auth.authenticate(username=username,password=password)
+=======
+    password = request.POST.get('password','')
+    user = auth.authenticate(username=username,password=password)
+
+>>>>>>> 2ed739edfd5f81fb5d365d4737e03de3c220daeb
 =======
     password = request.POST.get('password','')
     user = auth.authenticate(username=username,password=password)
@@ -47,7 +56,11 @@ def loggedin(request):
     return render_to_response('loggedin.html',
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                                 {'full_name': request.user.first_name})
+=======
+                                {'full_name': request.user.username})
+>>>>>>> 2ed739edfd5f81fb5d365d4737e03de3c220daeb
 =======
                                 {'full_name': request.user.username})
 >>>>>>> 2ed739edfd5f81fb5d365d4737e03de3c220daeb
@@ -80,7 +93,10 @@ class UserCreateForm(UserCreationForm):
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 2ed739edfd5f81fb5d365d4737e03de3c220daeb
 =======
 >>>>>>> 2ed739edfd5f81fb5d365d4737e03de3c220daeb
     def save(self):
@@ -92,6 +108,9 @@ class UserCreateForm(UserCreationForm):
         return user
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> 2ed739edfd5f81fb5d365d4737e03de3c220daeb
+=======
 >>>>>>> 2ed739edfd5f81fb5d365d4737e03de3c220daeb
 =======
 >>>>>>> 2ed739edfd5f81fb5d365d4737e03de3c220daeb

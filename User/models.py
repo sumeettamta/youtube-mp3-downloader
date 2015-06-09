@@ -21,9 +21,13 @@ class User(AbstractBaseUser):
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
     is_staff = models.BooleanField(_('staff status'), default=False,
         help_text=_('Designates whether the user can log into this admin site.'))
+=======
+    #objects = manager.CustomUserManager()
+>>>>>>> 2ed739edfd5f81fb5d365d4737e03de3c220daeb
 =======
     #objects = manager.CustomUserManager()
 >>>>>>> 2ed739edfd5f81fb5d365d4737e03de3c220daeb
@@ -36,8 +40,11 @@ class User(AbstractBaseUser):
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     objects = manager.CustomUserManager()
 
+=======
+>>>>>>> 2ed739edfd5f81fb5d365d4737e03de3c220daeb
 =======
 >>>>>>> 2ed739edfd5f81fb5d365d4737e03de3c220daeb
 =======
@@ -86,6 +93,7 @@ class User(AbstractBaseUser):
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     def get_short_name(self):
         """
         Returns the short name for the user.
@@ -106,6 +114,8 @@ class User(AbstractBaseUser):
     def has_module_perms(self, app_label):
         return self.is_staff
 
+=======
+>>>>>>> 2ed739edfd5f81fb5d365d4737e03de3c220daeb
 =======
 >>>>>>> 2ed739edfd5f81fb5d365d4737e03de3c220daeb
 =======

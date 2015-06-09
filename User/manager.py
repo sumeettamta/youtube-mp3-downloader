@@ -25,7 +25,11 @@ class CustomUserManager(UserManager):
         u = self.create_user(kwargs['email'], password=kwargs['password'])
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         u.is_staff = True
+=======
+        u.is_admin = True
+>>>>>>> 2ed739edfd5f81fb5d365d4737e03de3c220daeb
 =======
         u.is_admin = True
 >>>>>>> 2ed739edfd5f81fb5d365d4737e03de3c220daeb
