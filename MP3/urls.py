@@ -15,17 +15,14 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-<<<<<<< HEAD
 #from MP3.home import views
-=======
 from . import views
->>>>>>> a512c0265071d6299934667732fd2503b3d74375
 
 urlpatterns = [
     #url(r'^$','home.views.index'),
     url(r'^admin/', include(admin.site.urls)),
     #url(r'^downloads/', include('downloads.urls')),
     url(r'^accounts/', include('User.urls')),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^$', views.home,name='home'),
+   # url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    #url(r'^$', views.home,name='home'),
 ]
