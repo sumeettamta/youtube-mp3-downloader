@@ -3,8 +3,6 @@ from django.http import HttpResponse, HttpResponseRedirect
 from downloads.models import Songs
 from apiclient.discovery import build
 from apiclient.errors import HttpError
-import requests
-import json
 import youtube_dl
 import os
 
@@ -33,9 +31,6 @@ def download(request):
         lb = dl.split('=')
         if len(lb) == 1:
             dl = lp + dl
-        # else:
-        #     dl = dl
-        # print lb[1]
         ydl = youtube_dl.YoutubeDL(opt)
         r = None
         url = dl
@@ -69,7 +64,6 @@ def download(request):
 
 def userhistory(request):
     songs = Songs.objects.all()
-    print songs
     return render(request, 'history.html', {'songs': songs})
 
 

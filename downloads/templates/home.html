@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{% static "styles/style_home.css" %}">
+        <title>
+            Home
+        </title>
+    </head>
+
+    <body>
+        <div class="main">
+            <div class="headerWrapper">
+ 				<div class="logo">
+ 						<img src="http://upload.wikimedia.org/wikipedia/commons/3/33/Vanamo_Logo.png" width="30px" height="30px;">
+ 				</div>
+ 				<div class="navmenu">Menu</div>
+			</div>
+
+			<div class="middle">
+				<form action="{% url 'home' %}" method="get">
+                <input type="text" name="dl" size="50px">
+                <input type="submit" value="Download">
+            	</form>
+			</div>
+
+			<div class="three-block">
+                {% for thumbnail,title in zipped %}
+                    <div class="first">
+                    <img src={{ thumbnail }} height="150px" width="100%">
+                        <strong>{{ title }}</strong>
+                    </div>
+                {% endfor %}
+			</div>
+        </div>
+    </body>
+</html>

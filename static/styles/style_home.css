@@ -1,0 +1,52 @@
+.main {
+    border: 2px solid #000;
+    margin: auto;
+    padding: auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width:1050px;
+    height: auto;
+}
+
+.headerWrapper {
+    width:1000px;
+    display:block;
+    padding:15px;
+    padding-bottom:45px;
+    border: 1px solid #000;
+    background: #dfd;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.logo {
+  float: left;
+}
+
+.navmenu {
+    padding-top:5px;
+    float: right;
+}
+
+.middle {
+    margin-right: auto;
+    margin-left: auto;
+    width:1000px;
+    display:block;
+    padding:20px;
+    text-align:center;
+}
+
+.three-block {
+    padding:20px;
+    margin:auto;
+    width: 1000px;
+}
+
+.first {
+    display: inline-block;
+    height:150px;
+    padding:20px;
+    width:27.5%;
+
+}
