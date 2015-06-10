@@ -45,6 +45,7 @@ INSTALLED_APPS = (
     'rest_framework',
     'downloads',
     'User',
+    'home',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -125,3 +126,10 @@ STATICFILES_DIRS = (
 )
 
 AUTH_USER_MODEL = "User.User"
+#AUTHENTICATION_BACKENDS = (
+#'social.backends.facebook.FacebookOAuth2',
+#'django.contrib.auth.backends.ModelBackend',
+#)
+#SOCIAL_AUTH_FACEBOOK_KEY = '650651055070775'
+#SOCIAL_AUTH_FACEBOOK_SECRET = 'f082d46f74981df88beeb4f013fbc259'
+#`SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']

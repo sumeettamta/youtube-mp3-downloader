@@ -1,26 +1,14 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from downloads.models import Songs
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 import datetime
-=======
-=======
->>>>>>> 2ed739edfd5f81fb5d365d4737e03de3c220daeb
-=======
->>>>>>> 2ed739edfd5f81fb5d365d4737e03de3c220daeb
+
 from apiclient.discovery import build
 from apiclient.errors import HttpError
 import requests
 import json
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> 2ed739edfd5f81fb5d365d4737e03de3c220daeb
-=======
->>>>>>> 2ed739edfd5f81fb5d365d4737e03de3c220daeb
-=======
->>>>>>> 2ed739edfd5f81fb5d365d4737e03de3c220daeb
+
 import youtube_dl
 import os
 
@@ -85,53 +73,14 @@ def download(request):
 
 def userhistory(request):
     songs = Songs.objects.all()
-    print songs
+    #print songs
     return render(request, 'history.html', {'songs': songs})
-<<<<<<< HEAD
-=======
 
 
-def search(request):
-    return render(request, 'search.html')
-
-
-def youtube_search(request):
-    try:
-        if 's' in request.GET and request.GET['s']:
-            s = request.GET['s']
-            youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, developerKey=DEVELOPER_KEY)
-
-<<<<<<< HEAD
-            search_response = youtube.search().list(
-                q=s,
-                part="id,snippet",
-                maxResults=25
-            ).execute()
-
-=======
 
 def search(request):
     return render(request, 'search.html')
 
-
-def youtube_search(request):
-    try:
-        if 's' in request.GET and request.GET['s']:
-            s = request.GET['s']
-            youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, developerKey=DEVELOPER_KEY)
-
-<<<<<<< HEAD
-            search_response = youtube.search().list(
-                q=s,
-                part="id,snippet",
-                maxResults=25
-            ).execute()
-
->>>>>>> 2ed739edfd5f81fb5d365d4737e03de3c220daeb
-=======
-
-def search(request):
-    return render(request, 'search.html')
 
 
 def youtube_search(request):
@@ -146,7 +95,7 @@ def youtube_search(request):
                 maxResults=25
             ).execute()
 
->>>>>>> 2ed739edfd5f81fb5d365d4737e03de3c220daeb
+
             videos = []
             channels = []
             playlists = []
@@ -166,13 +115,10 @@ def youtube_search(request):
         else:
             return render(request, 'search.html', {'error': True})
     except HttpError, e:
-<<<<<<< HEAD
-<<<<<<< HEAD
+
         return HttpResponse("An HTTP error %d occurred:\n%s" % (e.resp.status, e.content))
->>>>>>> 2ed739edfd5f81fb5d365d4737e03de3c220daeb
-=======
+
         return HttpResponse("An HTTP error %d occurred:\n%s" % (e.resp.status, e.content))
->>>>>>> 2ed739edfd5f81fb5d365d4737e03de3c220daeb
-=======
+
         return HttpResponse("An HTTP error %d occurred:\n%s" % (e.resp.status, e.content))
->>>>>>> 2ed739edfd5f81fb5d365d4737e03de3c220daeb
+
