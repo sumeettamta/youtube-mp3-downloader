@@ -125,6 +125,7 @@ STATICFILES_DIRS = (
 )
 
 AUTH_USER_MODEL = "User.User"
+#SETTINGS.LOGIN_URL = '127.0.0.1:8000/accounts/login'
 #AUTHENTICATION_BACKENDS = (
 #'social.backends.facebook.FacebookOAuth2',
 #'django.contrib.auth.backends.ModelBackend',

@@ -10,15 +10,22 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 #from django.shortcuts import render_to_response
 #from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 
 def login(request):
+    if 'm_id' in request.session:
+        return HttpResponseRedirect('/accounts/loggedin')
     c = {}
     c.update(csrf(request))
 
     return render_to_response('login.html',c)
 
 def auth_view(request):
+<<<<<<< HEAD
 
+=======
+#    print "dasd"
+>>>>>>> ac0de343d9e4f9324a9182ec958ce0a2f1e31e5b
     username = request.POST.get('username','')
 
     password = request.POST.get('pwd','')
@@ -32,9 +39,23 @@ def auth_view(request):
             return HttpResponseRedirect('/home')
     else:
         return HttpResponseRedirect('/accounts/invalid/')
+#@login_required
+#@login_required(login_url ='/accounts/login/'):
 def loggedin(request):
+<<<<<<< HEAD
     return render_to_response('home.html',
                                    {'full_name': request.user.first_name})
+=======
+
+    if 'm_id' in request.session:
+        #print user.first_name
+        return render_to_response('loggedin.html')
+
+                                            #{'full_name':request.user.first_name})
+    else:
+        #rquest.session['m_id'] = None
+        return HttpResponseRedirect('/accounts/login/')
+>>>>>>> ac0de343d9e4f9324a9182ec958ce0a2f1e31e5b
 
 
 
@@ -44,25 +65,31 @@ def invalid_login(request):
 def logout(request):
     auth.logout(request)
     #print "yoyo"
+    #del request.session['m_id']
     return HttpResponseRedirect('/accounts/login')
     #return render_to_response('logout.html')
 """def logout(request):
     try:
         del request.session['member_id']
-    except KeyError:
+    except KeyError:login
         pass
     return HttpResponse("You're logged out.")"""
+#@login_required
 def register(request):
-    if request.method == 'POST':
-        form = UserCreateForm(request.POST)
-        if form.is_valid():
-            new_user = form.save()
-            return  render_to_response('sucess.html')
+    # if 'm_id' in request.session:
+    if 'm_id' in request.session:
+        return HttpResponse("alredy signed in")
     else:
-        form = UserCreateForm()
-    return render(request, "signup.html", {
-        'form': form,
-    })
+            if request.method == 'POST':
+                form = UserCreateForm(request.POST)
+                if form.is_valid():
+                    new_user = form.save()
+                    return  render_to_response('sucess.html')
+            else:
+                form = UserCreateForm()
+                return render(request, "signup.html", {
+                    'form': form,
+            })
 
 
 class UserCreateForm(UserCreationForm):
