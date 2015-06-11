@@ -2,13 +2,6 @@ from django.conf.urls import patterns,include,url
 
 from . import views
 
-
-
-#urlpatterns = patterns('',
- #   (r'^login/', views.login.as_view(),name='login'),
-  #  #(r'^signup', views.Signup.as_view(),name = 'signup),
-   # #(r'^dashboard', views.Dashboard.as_view(),name = 'dashboard'),
-#)"""
 urlpatterns = patterns('',
    # url(r'^admin/', include(admin.site.urls)),
     #url(r'^accounts/login/$', 'User.views.login'),

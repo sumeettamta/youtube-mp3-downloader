@@ -18,7 +18,6 @@ def login(request):
     return render_to_response('login.html',c)
 
 def auth_view(request):
-#    print "dasd"
 
     username = request.POST.get('username','')
 
@@ -30,11 +29,11 @@ def auth_view(request):
             request.session['m_id'] = user.id
         #if user.is_active:
             auth.login(request, user)
-            return HttpResponseRedirect('/accounts/loggedin')
+            return HttpResponseRedirect('/home')
     else:
         return HttpResponseRedirect('/accounts/invalid/')
 def loggedin(request):
-    return render_to_response('loggedin.html',
+    return render_to_response('home.html',
                                    {'full_name': request.user.first_name})
 
 

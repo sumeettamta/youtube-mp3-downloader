@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from downloads.models import Songs
 from django.http import HttpResponseRedirect
+from settings import CONST
 import urllib
 import json
 import os
@@ -15,15 +16,12 @@ opt = {
     'noplaylist': True
 }
 
+
 def home(request):
     ids = []
     thumbnails = []
     titles = []
     songs = Songs.objects.all().order_by('-id')[:6]
-    s = len(songs)
-    # pdb.set_trace()
-    songs = songs[s-6:s]
-    print s
     for song in songs:
         id = song.youtube_link.split('=')
         title = song.title
@@ -38,7 +36,6 @@ def home(request):
         thumbnails.append(thumbnail)
 
     zipped = zip(thumbnails, titles)
-
     # return render(request, 'home.html', {'zipped': zipped})
 
     lp = "https://www.youtube.com/watch?v="
@@ -77,4 +74,28 @@ def home(request):
                 return render(request, 'home.html', {'zipped': zipped})
     else:
         return render(request, 'home.html', {'zipped': zipped})
+
+
+def temp(request):
+    ids = []
+    thumbnails = []
+    titles = []
+    temps = Songs.objects.all().order_by('-id')[:12]
+    songs = temps[6:12]
+    for song in songs:
+        id = song.youtube_link.split('=')
+        title = song.title
+        ids.append(id[1])
+        titles.append(title)
+
+    for id in ids:
+        json_data = json.loads(urllib.urlopen("https://www.googleapis.com/youtube/v3/videos?id=%s&key=AIzaSyAauLfeOKokwDqETGYcW7ppEP81JWVq15I&part=snippet,statistics" % id).read())
+        # pdb.set_trace()
+        # statistics = json_data['items'][0]['statistics']
+        thumbnail = json_data['items'][0]['snippet']['thumbnails']['high']['url']
+        thumbnails.append(thumbnail)
+
+    zipped = zip(thumbnails, titles)
+
+    return render(request, 'temp.html', {'zipped': zipped})
 

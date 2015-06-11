@@ -2,19 +2,27 @@
 {% load static %}
 <html>
     <head>
+        <title>Home</title>
         <link rel="stylesheet" type="text/css" href="{% static "styles/style_home.css" %}">
-        <title>
-            Home
-        </title>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $("button").click(function(){
+                $("#h2").load("temp");
+                });
+            });
+        </script>
     </head>
 
     <body>
-        <div class="main">
+        <div class="main" id="main">
             <div class="headerWrapper">
  				<div class="logo">
  						<img src="http://upload.wikimedia.org/wikipedia/commons/3/33/Vanamo_Logo.png" width="30px" height="30px;">
  				</div>
- 				<div class="navmenu">Menu</div>
+ 				<div class="navmenu">
+                    <a href="/downloads/history">History</a>
+                </div>
 			</div>
 
 			<div class="middle">
@@ -24,14 +32,18 @@
             	</form>
 			</div>
 
-			<div class="three-block">
-                {% for thumbnail,title in zipped %}
-                    <div class="first">
-                    <img src={{ thumbnail }} height="150px" width="100%">
-                        <strong>{{ title }}</strong>
-                    </div>
-                {% endfor %}
+			<div class="three-block" id="t1">
+                <ul class="top" id="h1">
+                    {% for thumbnail,title in zipped %}
+                        <ui class="base"><img src={{ thumbnail }} height="150px" width="100%">
+                            <strong>{{ title }}</strong>
+                        </ui>
+                    {% endfor %}
+                </ul>
+                <ul class="top" id="h2"></ul>
 			</div>
+
+            <button type="button">Show More</button>
         </div>
     </body>
 </html>

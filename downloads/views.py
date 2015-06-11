@@ -1,27 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from downloads.models import Songs
-
-import datetime
-
 from apiclient.discovery import build
 from apiclient.errors import HttpError
-<<<<<<< HEAD
-=======
-import requests
-import json
-<<<<<<< HEAD
-
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> 2ed739edfd5f81fb5d365d4737e03de3c220daeb
-=======
->>>>>>> 2ed739edfd5f81fb5d365d4737e03de3c220daeb
-=======
->>>>>>> 2ed739edfd5f81fb5d365d4737e03de3c220daeb
->>>>>>> 8ecc2d46ff908e779f85dd7209195fd0649201e9
->>>>>>> a512c0265071d6299934667732fd2503b3d74375
 import youtube_dl
 import os
 
@@ -83,10 +64,6 @@ def download(request):
 
 def userhistory(request):
     songs = Songs.objects.all()
-<<<<<<< HEAD
-    #print songs
-=======
->>>>>>> a512c0265071d6299934667732fd2503b3d74375
     return render(request, 'history.html', {'songs': songs})
 
 
@@ -108,7 +85,6 @@ def youtube_search(request):
                 maxResults=25
             ).execute()
 
-
             videos = []
             channels = []
             playlists = []
@@ -128,10 +104,5 @@ def youtube_search(request):
         else:
             return render(request, 'search.html', {'error': True})
     except HttpError, e:
-
-        return HttpResponse("An HTTP error %d occurred:\n%s" % (e.resp.status, e.content))
-
-        return HttpResponse("An HTTP error %d occurred:\n%s" % (e.resp.status, e.content))
-
         return HttpResponse("An HTTP error %d occurred:\n%s" % (e.resp.status, e.content))
 
