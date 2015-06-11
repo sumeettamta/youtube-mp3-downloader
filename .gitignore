@@ -45,6 +45,7 @@ nosetests.xml
 pip-log.txt
 
 media
+.mp3
 
 
 # angular configs

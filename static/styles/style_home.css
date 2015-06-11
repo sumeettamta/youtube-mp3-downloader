@@ -6,6 +6,7 @@
     padding-bottom: 10px;
     width:1050px;
     height: auto;
+    text-align: center;
 }
 
 .headerWrapper {
@@ -43,7 +44,7 @@
     width: 1000px;
 }
 
-.first {
+.base {
     display: inline-block;
     height:150px;
     padding:20px;

@@ -1,4 +1,4 @@
-from django.conf.urls import patterns,include,url
+from django.conf.urls import patterns,url
 
 from . import views
 
@@ -14,7 +14,7 @@ urlpatterns = patterns('',
     #url(r'^admin/', include(admin.site.urls)),
     url(r'^login/$', 'User.views.login'),
     url(r'^signup/$', 'User.views.register'),
-   # url(r'^sucess/$', 'User.views.sucess'),
+    # url(r'^sucess/$', 'User.views.sucess'),
     url(r'^auth/$', 'User.views.auth_view'),
     url(r'^logout/$', 'User.views.logout'),
     url(r'^loggedin/$', 'User.views.loggedin'),

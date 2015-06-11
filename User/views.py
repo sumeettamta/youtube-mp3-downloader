@@ -21,11 +21,6 @@ def login(request):
     return render_to_response('login.html',c)
 
 def auth_view(request):
-<<<<<<< HEAD
-
-=======
-#    print "dasd"
->>>>>>> ac0de343d9e4f9324a9182ec958ce0a2f1e31e5b
     username = request.POST.get('username','')
 
     password = request.POST.get('pwd','')
@@ -39,24 +34,17 @@ def auth_view(request):
             return HttpResponseRedirect('/home')
     else:
         return HttpResponseRedirect('/accounts/invalid/')
+
+
 #@login_required
 #@login_required(login_url ='/accounts/login/'):
 def loggedin(request):
-<<<<<<< HEAD
-    return render_to_response('home.html',
-                                   {'full_name': request.user.first_name})
-=======
-
+    # return render_to_response('home.html', {'full_name': request.user.first_name})
     if 'm_id' in request.session:
-        #print user.first_name
-        return render_to_response('loggedin.html')
-
-                                            #{'full_name':request.user.first_name})
+        return render_to_response('loggedin.html', {'full_name': request.user.first_name})
     else:
         #rquest.session['m_id'] = None
         return HttpResponseRedirect('/accounts/login/')
->>>>>>> ac0de343d9e4f9324a9182ec958ce0a2f1e31e5b
-
 
 
 def invalid_login(request):

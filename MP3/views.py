@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from downloads.models import Songs
 from django.http import HttpResponseRedirect
-from settings import CONST
 import urllib
 import json
 import os

@@ -1,15 +1,8 @@
-"""from django.shortcuts import render
+from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from downloads.models import Songs
 from apiclient.discovery import build
 from apiclient.errors import HttpError
-<<<<<<< HEAD
-=======
-
-import requests
-import json
-
->>>>>>> ac0de343d9e4f9324a9182ec958ce0a2f1e31e5b
 import youtube_dl
 import os
 
@@ -71,10 +64,6 @@ def download(request):
 
 def userhistory(request):
     songs = Songs.objects.all()
-<<<<<<< HEAD
-=======
-
->>>>>>> ac0de343d9e4f9324a9182ec958ce0a2f1e31e5b
     return render(request, 'history.html', {'songs': songs})
 
 
@@ -116,5 +105,3 @@ def youtube_search(request):
             return render(request, 'search.html', {'error': True})
     except HttpError, e:
         return HttpResponse("An HTTP error %d occurred:\n%s" % (e.resp.status, e.content))
-
-"""
