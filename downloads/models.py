@@ -13,6 +13,15 @@ class Songs(models.Model):
     like_count = models.PositiveIntegerField(default=0, null=True)
     unlike_count = models.PositiveIntegerField(default=0, null=True)
     download_count = models.PositiveIntegerField(default=0, null=True)
+    price = models.PositiveSmallIntegerField(default=5)
+    thumbnail = models.CharField(max_length=120, default="")
+
+    class Meta:
+        verbose_name = "Song"
+        verbose_name_plural = "Songs"
+
+    def __str__(self):
+        return self.name
 
 
 class UserHistory(models.Model):
@@ -20,7 +29,7 @@ class UserHistory(models.Model):
     User History
     """
     user = models.ForeignKey(User)
-    song = models.ForeignKey('Songs')
+    song = models.ForeignKey(Songs)
     datetime = models.DateTimeField(auto_now=True)
 
     class Meta:

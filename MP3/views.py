@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from downloads.models import Songs
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 import urllib
 import json
 import os
@@ -17,84 +17,58 @@ opt = {
 
 
 def home(request):
-    ids = []
-    thumbnails = []
-    titles = []
-    songs = Songs.objects.all().order_by('-id')[:6]
-    for song in songs:
-        id = song.youtube_link.split('=')
-        title = song.title
-        ids.append(id[1])
-        titles.append(title)
-
-    for id in ids:
-        json_data = json.loads(urllib.urlopen("https://www.googleapis.com/youtube/v3/videos?id=%s&key=AIzaSyAauLfeOKokwDqETGYcW7ppEP81JWVq15I&part=snippet,statistics" % id).read())
-        # pdb.set_trace()
-        statistics = json_data['items'][0]['statistics']
-        thumbnail = json_data['items'][0]['snippet']['thumbnails']['high']['url']
-        thumbnails.append(thumbnail)
-
-    zipped = zip(thumbnails, titles)
-    # return render(request, 'home.html', {'zipped': zipped})
-
-    lp = "https://www.youtube.com/watch?v="
-    if 'dl' in request.GET and request.GET['dl']:
-        dl = request.GET['dl']
-        lb = dl.split('=')
-        if len(lb) == 1:
-            dl = lp + dl
-        ydl = youtube_dl.YoutubeDL(opt)
-        r = None
-        url = dl
-        cwd = os.getcwd()
-        try:
-            yl = Songs.objects.get(youtube_link=dl)
-            yl.download_count += 1
-            yl.save()
-            # d_link = yl.local_link
-            return render(request, 'home.html', {'zipped': zipped})
-        except Songs.DoesNotExist:
+    if 'm_id' in request.session:
+        songs = Songs.objects.all().order_by('-id')[:3]
+        lp = "https://www.youtube.com/watch?v="
+        if 'dl' in request.GET and request.GET['dl']:
+            dl = request.GET['dl']
+            lb = dl.split('=')
+            if len(lb) == 1:
+                dl = lp + dl
+            ydl = youtube_dl.YoutubeDL(opt)
+            r = None
+            url = dl
+            cwd = os.getcwd()
             try:
-                os.chdir('/home/kuliza219/django/ENV/MP3/static/Downloaded Songs')
-                with ydl:
-                    r = ydl.extract_info(url, download = True)
-                title = r['title']
-
-                os.rename(r['id'], "%s.mp3" % title)
-                d_link = 'Downloaded Songs' + '/' + title + ".mp3"
-                p = Songs(youtube_link=dl, local_link=d_link, title=r['title'], uploader=r['uploader'], \
-                          view_count=r['view_count'], like_count=r['like_count'], unlike_count=r['dislike_count'], \
-                          download_count=1)
-                p.save()
-                os.chdir(cwd)
-                # return render(request, 'home.html', {'zipped': zipped})
-                return HttpResponseRedirect('home/')
-            except Exception:
-                return render(request, 'home.html', {'zipped': zipped})
+                yl = Songs.objects.get(youtube_link=dl)
+                yl.download_count += 1
+                yl.save()
+                return render(request, 'home.html', {'songs': songs})
+            except Songs.DoesNotExist:
+                try:
+                    os.chdir('/home/kuliza219/django/ENV/MP3/static/Downloaded Songs')
+                    with ydl:
+                        r = ydl.extract_info(url, download = True)
+                    title = r['title']
+                    json_data = json.loads(urllib.urlopen("https://www.googleapis.com/youtube/v3/videos?id=%s&key=AIzaSyAauLfeOKokwDqETGYcW7ppEP81JWVq15I&part=snippet,statistics" % r['id']).read())
+                    thumbnail = json_data['items'][0]['snippet']['thumbnails']['high']['url']
+                    # statistics = json_data['items'][0]['statistics']
+                    os.rename(r['id'], "%s.mp3" % title)
+                    d_link = 'Downloaded Songs' + '/' + title + ".mp3"
+                    p = Songs(youtube_link=dl, local_link=d_link, title=r['title'], uploader=r['uploader'], \
+                              view_count=r['view_count'], like_count=r['like_count'], unlike_count=r['dislike_count'], \
+                              download_count=1, thumbnail=thumbnail)
+                    p.save()
+                    os.chdir(cwd)
+                    return HttpResponseRedirect('home')
+                except Exception:
+                    return render(request, 'home.html', {'songs': songs})
+        else:
+            return render(request, 'home.html', {'songs': songs})
     else:
-        return render(request, 'home.html', {'zipped': zipped})
+        return HttpResponseRedirect('/accounts/login')
 
 
 def temp(request):
-    ids = []
-    thumbnails = []
-    titles = []
-    temps = Songs.objects.all().order_by('-id')[:12]
-    songs = temps[6:12]
-    for song in songs:
-        id = song.youtube_link.split('=')
-        title = song.title
-        ids.append(id[1])
-        titles.append(title)
-
-    for id in ids:
-        json_data = json.loads(urllib.urlopen("https://www.googleapis.com/youtube/v3/videos?id=%s&key=AIzaSyAauLfeOKokwDqETGYcW7ppEP81JWVq15I&part=snippet,statistics" % id).read())
-        # pdb.set_trace()
-        # statistics = json_data['items'][0]['statistics']
-        thumbnail = json_data['items'][0]['snippet']['thumbnails']['high']['url']
-        thumbnails.append(thumbnail)
-
-    zipped = zip(thumbnails, titles)
-
-    return render(request, 'temp.html', {'zipped': zipped})
-
+    total_data = Songs.objects.all().count()
+    if 'count' in request.GET and request.GET['count']:
+        c = request.GET['count']
+        t = int(c)
+        if t-3 < total_data:
+            temps = Songs.objects.all().order_by('-id')[:t]
+            songs = temps[t-3:t]
+            return render(request, 'temp.html', {'songs': songs})
+        else:
+            raise Http404
+    else:
+        raise Http404

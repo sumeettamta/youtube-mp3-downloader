@@ -45,6 +45,7 @@ INSTALLED_APPS = (
     'rest_framework',
     'downloads',
     'User',
+    'cart',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -63,10 +64,13 @@ ROOT_URLCONF = 'MP3.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.template.context_processors.csrf',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
