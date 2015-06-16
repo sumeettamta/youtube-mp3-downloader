@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head>
+        <title>Home</title>
+        <link rel="stylesheet" type="text/css" href="{% static "styles/style_home.css" %}">
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    </head>
+
+    <body>
+        <div class="main" id="main">
+            <div class="headerWrapper">
+ 				<div class="logo">
+ 						<img src="http://upload.wikimedia.org/wikipedia/commons/3/33/Vanamo_Logo.png" width="30px" height="30px;">&nbsp;&nbsp;&nbsp;&nbsp;Hi {{ name }}
+ 				</div>
+ 				<div class="navmenu">
+                    <a href="/downloads/history">History</a>
+                    <a href="/accounts/logout">Logout</a>
+                    <form action="/cart" method="GET">
+                        <input type="hidden" name="cart" id="mycart">
+                        <input type="submit" value="Cart">
+                    </form>
+                </div>
+			</div>
+
+			<div class="middle">
+				<form action="{% url 'home' %}" method="get">
+                <input type="text" name="dl" size="50px">
+                <input type="submit" value="Download">
+            	</form>
+			</div>
+
+			<div class="three-block" id="t1">
+                <ul class="top" id="h1">
+                    {% for song in songs %}
+
+                            <ui class="base">
+                                <img src={{ song.thumbnail }} height="150px" width="100%">
+                                <strong>{{ song.title }}</strong><br><br>
+                                <input class="addtocart" id="{{ song.id }}" type="submit" value="Add to cart">
+                            </ui>
+
+                    {% endfor %}
+                </ul>
+			</div>
+
+            <div id="bu"><button id="button">Show More</button>{% csrf_token %}</div>
+        </div>
+    </body>
+
+    <script>
+        count = 3;
+        $('#button').click(function() {
+            count = count + 3;
+            $.ajax({
+                url: 'temp',
+                error: function() {
+                    $('#button').remove();
+                },
+                data: {
+                    'count': count
+                },
+                success: function(data) {
+                    $('#h1').append(data);
+                },
+                type: 'GET'
+            });
+        });
+    </script>
+
+    <script>
+            var cart = [];
+            $(document.body).on('click', '.addtocart', function() {
+                id = (this.id);
+                if (jQuery.inArray(id, cart) == 0)
+                    alert('Song already in cart');
+                else
+                    cart.push(id);
+                console.log(cart);
+                document.getElementById('mycart').value = cart;
+            });
+
+    </script>
+</html>

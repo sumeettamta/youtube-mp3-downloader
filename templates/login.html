@@ -1,0 +1,23 @@
+{% extends "base_user.html" %}
+
+{% block content %}
+    {% csrf_token %}
+
+    {% if error %}
+                <p style="color: red;">Your login details are invalid. Please enter correct details.</p>
+    {% endif %}
+        <form action="/accounts/auth/" method="post">{% csrf_token %}
+            <div>
+            <label for="username">User name:</label>
+            <input type="text" name="username" value="" id="username">
+            </div>
+            <br>
+            <div>
+            <label for="password">Password:</label>
+            <input type=password name="pwd" value="" id="password">
+            </div>
+            <br>
+            <input type="submit" value="login" />&nbsp;&nbsp;&nbsp;&nbsp;<a href="/accounts/signup">SignUp</a>
+        </form>
+
+{% endblock %}

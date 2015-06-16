@@ -1,19 +1,17 @@
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, render
 from django.http import HttpResponseRedirect
 from django.contrib import auth
 from django.core.context_processors import csrf
 from django.contrib.auth.forms import UserCreationForm
-from django.shortcuts import render
 from User import models
 
 def login(request):
-    print request.POST
     c = {}
     c.update(csrf(request))
     if 'm_id' in request.session:
         return HttpResponseRedirect('/home')
     else:
-        return render_to_response('login.html', c)
+        return render(request, 'login.html', c)
 
 def auth_view(request):
     if 'm_id' in request.session:

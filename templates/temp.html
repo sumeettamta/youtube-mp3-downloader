@@ -1,0 +1,13 @@
+{% if error %}
+    <p style="text-align: center;">No more to show</p>
+{% else %}
+    {% for song in songs %}
+
+            <ui class="base">
+                <img src={{ song.thumbnail }} height="150px" width="100%">
+                <strong>{{ song.title }}</strong><br><br>
+                <input class="addtocart" id="{{ song.id }}" type="submit" value="Add to cart">
+            </ui>
+
+    {% endfor %}
+{% endif %}

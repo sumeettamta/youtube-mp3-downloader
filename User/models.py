@@ -4,7 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from . import manager
 class User(AbstractBaseUser):
     first_name = models.CharField(_('first name'), max_length=254, blank=False)
-    last_name = models.CharField(_('last_name name'), max_length=254, blank=False)
+    last_name = models.CharField(_('last name'), max_length=254, blank=False)
 
     email = models.EmailField(_('email address'), max_length=254, unique=True, blank=False)
     phone_number = models.CharField(_('phone_number'), max_length=20, blank=True, default="")

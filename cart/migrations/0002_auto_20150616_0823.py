@@ -7,13 +7,13 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('downloads', '0008_auto_20150604_2036'),
+        ('cart', '0001_initial'),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='songs',
-            name='link',
-            field=models.URLField(unique=True, max_length=100),
+            model_name='cartitem',
+            name='song',
+            field=models.ForeignKey(to='downloads.Songs', unique=True),
         ),
     ]

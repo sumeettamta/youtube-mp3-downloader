@@ -7,15 +7,18 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('downloads', '0010_auto_20150605_0850'),
+        ('downloads', '__first__'),
+        ('cart', '0004_auto_20150616_0910'),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='userhistory',
+            model_name='cartitem',
             name='song',
         ),
-        migrations.DeleteModel(
-            name='UserHistory',
+        migrations.AddField(
+            model_name='cartitem',
+            name='song',
+            field=models.ForeignKey(to='downloads.Songs', null=True),
         ),
     ]

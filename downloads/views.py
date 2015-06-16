@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from downloads.models import Songs
+from downloads.models import Songs, UserHistory
 from apiclient.discovery import build
 from apiclient.errors import HttpError
 import youtube_dl
@@ -63,9 +63,8 @@ def download(request):
         return render(request, 'download.html', {'error': True})
 
 def userhistory(request):
-    songs = Songs.objects.all()
+    songs = UserHistory.objects.filter(user__id=request.session['m_id'])
     return render(request, 'history.html', {'songs': songs})
-
 
 
 def search(request):

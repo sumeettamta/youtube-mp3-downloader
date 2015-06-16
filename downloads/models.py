@@ -21,16 +21,16 @@ class Songs(models.Model):
         verbose_name_plural = "Songs"
 
     def __str__(self):
-        return self.name
+        return self.title
 
 
 class UserHistory(models.Model):
     """
     User History
     """
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, related_name="user_history")
     song = models.ForeignKey(Songs)
     datetime = models.DateTimeField(auto_now=True)
 
-    class Meta:
-        abstract = True
+    # class Meta:
+    #     abstract = True

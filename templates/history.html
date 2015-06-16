@@ -15,7 +15,7 @@
                 <p>You have downloaded {{ songs|length }} song{{ songs|pluralize }}.</p>
                 <ul>
                     {% for song in songs %}
-                    <li>{{ song.title }} (Downloads {{ song.download_count }})</li>
+                    <li>{{ song.song.title }}</li>
                     <a href="{% static song.local_link %}">Click to Download</a>
                     {% endfor %}
                 </ul>
