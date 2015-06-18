@@ -6,7 +6,7 @@ class CartItem(models.Model):
     user = models.ForeignKey(User, default=1)
     created = models.DateTimeField(auto_now_add=True, auto_now=False)
     updated = models.DateTimeField(auto_now_add=False, auto_now=True)
-    song = models.ForeignKey(Songs, blank=False, null=True)
+    song = models.ManyToManyField(Songs)
     active = models.BooleanField(default=True)
 
     def __str__(self):

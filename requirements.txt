@@ -16,4 +16,8 @@ six==1.9.0
 uritemplate==0.6
 urlfetch==1.0.2
 wheel==0.24.0
+<<<<<<< HEAD
 youtube-dl==2015.5.20
+=======
+youtube-dl==2015.5.20
+>>>>>>> 9eac4e6767539684df22f88d9e60dcd0a0f6c229

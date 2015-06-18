@@ -6,7 +6,7 @@ from django.contrib.auth.forms import UserCreationForm
 from User import models
 from downloads.models import Songs
 
-songs = Songs.objects.all().order_by('-id')[:6]
+songs = Songs.objects.all().order_by('-id')[:9]
 
 
 def login(request):

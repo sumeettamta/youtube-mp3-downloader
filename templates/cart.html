@@ -15,7 +15,7 @@
                 <p>You have {{ csongs|length }} song{{ songs|pluralize }} in your cart.</p>
                 <ul>
                     {% for song in csongs %}
-                    <li>{{ song.song.title }}</li>
+                    <li>{{ song.title }}</li>
                     <!--<a href="{% static song.song.local_link %}">Click to Play</a>-->
                     {% endfor %}
                 </ul>

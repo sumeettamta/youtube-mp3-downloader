@@ -16,13 +16,14 @@
                         <strong>Hi {{ name }}</strong>
  				</div>
  				<div class="navmenu">
-                    <a href="/history">History</a>
+                    <a href="/history">History</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="/cart">Cart</a>&nbsp;&nbsp;&nbsp;&nbsp;
                     <a href="/accounts/logout">Logout</a>
                     <!--<form action="/cart" method="GET">-->
                         <!--<input type="hidden" name="cart" id="mycart">-->
                         <!--<input type="submit" value="Cart">-->
                     <!--</form>-->
-                    <a href="/cart">Cart</a>
+
                 </div>
 			</div>
 
@@ -55,7 +56,7 @@
     </body>
 
     <script>
-        count = 3;
+        count = 9;
         $('#button').click(function() {
             count = count + 3;
             $.ajax({
@@ -82,7 +83,7 @@
                     alert('Song already in cart');
                 else
                     cart.push(id);
-                console.log(cart);
+
                 $.ajax({
                     url: 'cart',
                     error: function() {

@@ -12,14 +12,14 @@
         <div class="main" id="main">
             <div class="headerWrapper">
  				<div class="logo">
- 						<img src="http://upload.wikimedia.org/wikipedia/commons/3/33/Vanamo_Logo.png" width="30px" height="30px;">&nbsp;&nbsp;&nbsp;&nbsp;
+ 						<a id="home" href="/"><img src="http://upload.wikimedia.org/wikipedia/commons/3/33/Vanamo_Logo.png" width="30px" height="30px;"></a>&nbsp;&nbsp;&nbsp;&nbsp;
                         <strong>Hi Anonymous</strong>
  				</div>
  				<div class="navmenu">
                     <form action="/accounts/login/" method="post">{% csrf_token %}
-                        <label for="username">User name:</label><input type="text" name="username" value="" id="username">
-                        <label for="password">Password:</label><input type=password name="pwd" value="" id="password">
-                        <input type="submit" value="login" />&nbsp;&nbsp;&nbsp;&nbsp;<a id="signup" href="#">New User</a>
+                        <label for="username">User name:</label><input type="text" name="username" value="" id="username">&nbsp;
+                        <label for="password">Password:</label><input type=password name="pwd" value="" id="password">&nbsp;
+                        <input type="submit" value="login" />&nbsp;&nbsp;<button id="signup">New User</button>
                     </form>
                     {% if error %}
                         <p style="color: red;">Your login details are invalid. Please enter correct details.</p>
@@ -53,6 +53,23 @@
                 },
                 success: function(data) {
                     $('#t1').html(data);
+                }
+            });
+        });
+    </script>
+
+    <script>
+        $('#home').click(function(event) {
+            event.preventDefault();
+            $.ajax({
+                url: '/',
+                type: 'GET',
+                data: {
+                },
+                error: function() {
+                },
+                success: function(data) {
+                    $('html').html(data);
                 }
             });
         });

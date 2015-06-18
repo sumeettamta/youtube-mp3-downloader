@@ -20,7 +20,7 @@ opt = {
 def home(request):
     if 'm_id' in request.session:
         user = User.objects.get(id=request.session['m_id'])
-        songs = Songs.objects.all().order_by('-id')[:3]
+        songs = Songs.objects.all().order_by('-id')[:9]
         lp = "https://www.youtube.com/watch?v="
         if 'dl' in request.GET and request.GET['dl']:
             dl = request.GET['dl']
@@ -88,7 +88,7 @@ def loginhome(request):
     if 'm_id' in request.session:
         return HttpResponseRedirect('/home')
     else:
-        songs = Songs.objects.all().order_by('-id')[:6]
+        songs = Songs.objects.all().order_by('-id')[:9]
         context = {'songs': songs}
         template = 'loginhome.html'
         return render(request, template, context)
