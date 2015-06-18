@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from downloads.models import Songs
+from downloads.models import Songs, UserHistory
+from User.models import User
 from django.http import HttpResponseRedirect, Http404
 import urllib
 import json
@@ -18,6 +19,7 @@ opt = {
 
 def home(request):
     if 'm_id' in request.session:
+        user = User.objects.get(id=request.session['m_id'])
         songs = Songs.objects.all().order_by('-id')[:3]
         lp = "https://www.youtube.com/watch?v="
         if 'dl' in request.GET and request.GET['dl']:
@@ -38,7 +40,7 @@ def home(request):
                 try:
                     os.chdir('/home/kuliza219/django/ENV/MP3/static/Downloaded Songs')
                     with ydl:
-                        r = ydl.extract_info(url, download = True)
+                        r = ydl.extract_info(url, download=True)
                     title = r['title']
                     json_data = json.loads(urllib.urlopen("https://www.googleapis.com/youtube/v3/videos?id=%s&key=AIzaSyAauLfeOKokwDqETGYcW7ppEP81JWVq15I&part=snippet,statistics" % r['id']).read())
                     thumbnail = json_data['items'][0]['snippet']['thumbnails']['high']['url']
@@ -49,12 +51,20 @@ def home(request):
                               view_count=r['view_count'], like_count=r['like_count'], unlike_count=r['dislike_count'], \
                               download_count=1, thumbnail=thumbnail)
                     p.save()
+                    user, created = User.objects.get_or_create(id=request.session['m_id'])
+                    if created:
+                        us = UserHistory(user=user)
+                        us.save()
+                        us.song.add(p)
+                    else:
+                        us = UserHistory.objects.get(user=user)
+                        us.song.add(p)
                     os.chdir(cwd)
-                    return HttpResponseRedirect('home')
+                    return render(request, 'home.html', {'songs': songs, 'name': user.first_name})
                 except Exception:
-                    return render(request, 'home.html', {'songs': songs})
+                    return render(request, 'home.html', {'songs': songs, 'name': user.first_name, 'error': True})
         else:
-            return render(request, 'home.html', {'songs': songs})
+            return render(request, 'home.html', {'songs': songs, 'name': user.first_name})
     else:
         return HttpResponseRedirect('/accounts/login')
 
@@ -72,3 +82,13 @@ def temp(request):
             raise Http404
     else:
         raise Http404
+
+
+def loginhome(request):
+    if 'm_id' in request.session:
+        return HttpResponseRedirect('/home')
+    else:
+        songs = Songs.objects.all().order_by('-id')[:6]
+        context = {'songs': songs}
+        template = 'loginhome.html'
+        return render(request, template, context)

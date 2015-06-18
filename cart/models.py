@@ -10,7 +10,7 @@ class CartItem(models.Model):
     active = models.BooleanField(default=True)
 
     def __str__(self):
-        return str(self.cart_id)
+        return str(self.id)
 
     class Meta:
         db_table = 'cart_items'

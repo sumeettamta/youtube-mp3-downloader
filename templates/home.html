@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
+{% load embed %}
 <html>
     <head>
         <title>Home</title>
@@ -11,19 +12,24 @@
         <div class="main" id="main">
             <div class="headerWrapper">
  				<div class="logo">
- 						<img src="http://upload.wikimedia.org/wikipedia/commons/3/33/Vanamo_Logo.png" width="30px" height="30px;">&nbsp;&nbsp;&nbsp;&nbsp;Hi {{ name }}
+ 						<img src="http://upload.wikimedia.org/wikipedia/commons/3/33/Vanamo_Logo.png" width="30px" height="30px;">&nbsp;&nbsp;&nbsp;&nbsp;
+                        <strong>Hi {{ name }}</strong>
  				</div>
  				<div class="navmenu">
-                    <a href="/downloads/history">History</a>
+                    <a href="/history">History</a>
                     <a href="/accounts/logout">Logout</a>
-                    <form action="/cart" method="GET">
-                        <input type="hidden" name="cart" id="mycart">
-                        <input type="submit" value="Cart">
-                    </form>
+                    <!--<form action="/cart" method="GET">-->
+                        <!--<input type="hidden" name="cart" id="mycart">-->
+                        <!--<input type="submit" value="Cart">-->
+                    <!--</form>-->
+                    <a href="/cart">Cart</a>
                 </div>
 			</div>
 
 			<div class="middle">
+                {% if error %}
+                    <p style="color: red;">Please enter the correct link</p>
+                {% endif %}
 				<form action="{% url 'home' %}" method="get">
                 <input type="text" name="dl" size="50px">
                 <input type="submit" value="Download">
@@ -33,13 +39,13 @@
 			<div class="three-block" id="t1">
                 <ul class="top" id="h1">
                     {% for song in songs %}
-
                             <ui class="base">
-                                <img src={{ song.thumbnail }} height="150px" width="100%">
+                                <!--<img src={{ song.thumbnail }} height="150px" width="100%">-->
+                                <iframe width="100%" height="150px" src={{ song.youtube_link|embed }} frameborder="0" allowfullscreen></iframe>
                                 <strong>{{ song.title }}</strong><br><br>
                                 <input class="addtocart" id="{{ song.id }}" type="submit" value="Add to cart">
+                                <!--<a target="_blank" href={{ song.youtube_link }}>Show on YouTube</a>-->
                             </ui>
-
                     {% endfor %}
                 </ul>
 			</div>
@@ -77,7 +83,20 @@
                 else
                     cart.push(id);
                 console.log(cart);
-                document.getElementById('mycart').value = cart;
+                $.ajax({
+                    url: 'cart',
+                    error: function() {
+
+                    },
+                    data: {
+                        'cart': id,
+                    },
+                    success: function(event) {
+
+                    },
+                    type: 'GET'
+                });
+                <!--document.getElementById('mycart').value = cart;-->
             });
 
     </script>

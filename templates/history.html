@@ -11,22 +11,22 @@
 
     <body>
         <div class="main">
+            {% if error %}
+                <p style="color: red;">No history</p>
+            {% endif %}
             {% if songs %}
                 <p>You have downloaded {{ songs|length }} song{{ songs|pluralize }}.</p>
                 <ul>
                     {% for song in songs %}
-                    <li>{{ song.song.title }}</li>
-                    <a href="{% static song.local_link %}">Click to Download</a>
+                    <li>{{ song.title }}</li>
+                    <a href="{% static song.local_link %}">Click to Play</a>
                     {% endfor %}
                 </ul>
             {% else %}
                 <p>0 Downloaded Song</p>
             {% endif %}
             <br>
-            <a href="/downloads/download_page">Download</a>
-            <br>
-            <br>
-            <a href="/downloads/search">Search</a>
+            <a href="/home">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/downloads/download_page">Download</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/downloads/search">Search</a>
         </div>
     </body>
 </html>

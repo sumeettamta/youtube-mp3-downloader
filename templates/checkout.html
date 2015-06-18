@@ -5,25 +5,25 @@
         <link rel="stylesheet" type="text/css" href="{% static "styles/style.css" %}">
         <meta charset="UTF-8">
         <title>
-            Cart Items
+            Ready to Download
         </title>
     </head>
 
     <body>
         <div class="main">
             {% if csongs %}
-                <p>You have {{ csongs|length }} song{{ songs|pluralize }} in your cart.</p>
+                <p>You have {{ csongs|length }} song{{ songs|pluralize }} in your order.</p>
                 <ul>
                     {% for song in csongs %}
                     <li>{{ song.song.title }}</li>
-                    <!--<a href="{% static song.song.local_link %}">Click to Play</a>-->
+                    <a href="{% static song.song.local_link %}">Click to Download</a>
                     {% endfor %}
                 </ul>
             {% else %}
-                <p>Empty Cart</p>
+                <p>Empty</p>
             {% endif %}
             <br>
-            <a href="/home">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/cart/checkout">Checkout</a>
+            <a href="/home">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/history">History</a>
         </div>
     </body>
 </html>

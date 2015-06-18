@@ -26,11 +26,7 @@ class CustomUserManager(UserManager):
 
         u.is_staff = True
 
-        u.is_admin = True
-
-        u.is_admin = True
-
-        u.is_admin = True
+        # u.is_admin = True
 
         u.save(using=self._db)
         return u

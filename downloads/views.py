@@ -5,6 +5,8 @@ from apiclient.discovery import build
 from apiclient.errors import HttpError
 import youtube_dl
 import os
+from rest_framework import generics
+from downloads.serializers import SongsSerializer
 
 DEVELOPER_KEY = "AIzaSyAauLfeOKokwDqETGYcW7ppEP81JWVq15I"
 YOUTUBE_API_SERVICE_NAME = "youtube"
@@ -63,8 +65,14 @@ def download(request):
         return render(request, 'download.html', {'error': True})
 
 def userhistory(request):
-    songs = UserHistory.objects.filter(user__id=request.session['m_id'])
-    return render(request, 'history.html', {'songs': songs})
+    songs = []
+    try:
+        uh = UserHistory.objects.get(user__id=request.session['m_id'])
+        songs = uh.song.all()
+        return render(request, 'history.html', {'songs': songs})
+    except:
+        return render(request, 'history.html', {'songs': songs})
+
 
 
 def search(request):
@@ -104,3 +112,13 @@ def youtube_search(request):
             return render(request, 'search.html', {'error': True})
     except HttpError, e:
         return HttpResponse("An HTTP error %d occurred:\n%s" % (e.resp.status, e.content))
+
+
+class SongList(generics.ListCreateAPIView):
+    queryset = Songs.objects.all()
+    serializer_class = SongsSerializer
+
+
+class SongDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Songs.objects.all()
+    serializer_class = SongsSerializer

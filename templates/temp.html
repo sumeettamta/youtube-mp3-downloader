@@ -1,12 +1,15 @@
+{% load embed %}
 {% if error %}
     <p style="text-align: center;">No more to show</p>
 {% else %}
     {% for song in songs %}
 
             <ui class="base">
-                <img src={{ song.thumbnail }} height="150px" width="100%">
+                <!--<img src={{ song.thumbnail }} height="150px" width="100%">-->
+                <iframe width="100%" height="150px" src={{ song.youtube_link|embed }} frameborder="0" allowfullscreen></iframe>
                 <strong>{{ song.title }}</strong><br><br>
                 <input class="addtocart" id="{{ song.id }}" type="submit" value="Add to cart">
+                <!--<a target="_blank" href={{ song.youtube_link }}>Show on YouTube</a>-->
             </ui>
 
     {% endfor %}

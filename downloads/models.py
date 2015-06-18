@@ -28,9 +28,9 @@ class UserHistory(models.Model):
     """
     User History
     """
-    user = models.ForeignKey(User, related_name="user_history")
-    song = models.ForeignKey(Songs)
+    user = models.ForeignKey(User, null=True, blank=False)
+    song = models.ManyToManyField(Songs)
     datetime = models.DateTimeField(auto_now=True)
 
-    # class Meta:
-    #     abstract = True
+    def __str__(self):
+        return self.user.first_name
