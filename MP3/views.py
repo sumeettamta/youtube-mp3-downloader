@@ -6,7 +6,7 @@ import urllib
 import json
 import os
 import youtube_dl
-import pdb
+from cart.models import CartItem
 
 opt = {
     'format': 'bestaudio/best',
@@ -21,6 +21,14 @@ def home(request):
     if 'm_id' in request.session:
         user = User.objects.get(id=request.session['m_id'])
         songs = Songs.objects.all().order_by('-id')[:9]
+        uc, created = CartItem.objects.get_or_create(user__id=request.session['m_id'])
+        if created:
+            uc.save()
+        csongs = uc.song.all()
+        ids = []
+        for song in csongs:
+            ids.append(song.id)
+        print ids
         lp = "https://www.youtube.com/watch?v="
         if 'dl' in request.GET and request.GET['dl']:
             dl = request.GET['dl']
@@ -60,11 +68,11 @@ def home(request):
                         us = UserHistory.objects.get(user=user)
                         us.song.add(p)
                     os.chdir(cwd)
-                    return render(request, 'home.html', {'songs': songs, 'name': user.first_name})
+                    return render(request, 'home.html', {'songs': songs, 'name': user.first_name, 'ids': ids})
                 except Exception:
-                    return render(request, 'home.html', {'songs': songs, 'name': user.first_name, 'error': True})
+                    return render(request, 'home.html', {'songs': songs, 'name': user.first_name, 'error': True, 'ids': ids})
         else:
-            return render(request, 'home.html', {'songs': songs, 'name': user.first_name})
+            return render(request, 'home.html', {'songs': songs, 'name': user.first_name, 'ids': ids})
     else:
         return HttpResponseRedirect('/accounts/login')
 

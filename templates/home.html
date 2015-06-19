@@ -12,7 +12,7 @@
         <div class="main" id="main">
             <div class="headerWrapper">
  				<div class="logo">
- 						<img src="http://upload.wikimedia.org/wikipedia/commons/3/33/Vanamo_Logo.png" width="30px" height="30px;">&nbsp;&nbsp;&nbsp;&nbsp;
+ 						<img src="http://upload.wikimedia.org/wikipedia/commons/3/33/Vanamo_Logo.png" width="30px" height="30px">&nbsp;&nbsp;&nbsp;&nbsp;
                         <strong>Hi {{ name }}</strong>
  				</div>
  				<div class="navmenu">
@@ -79,10 +79,13 @@
             var cart = [];
             $(document.body).on('click', '.addtocart', function() {
                 id = (this.id);
-                if (jQuery.inArray(id, cart) == 0)
-                    alert('Song already in cart');
-                else
-                    cart.push(id);
+                var b = '#'+id;
+                $(b).hide();
+
+                <!--if (jQuery.inArray(id, cart) == 0)-->
+                    <!--alert('Song already in cart');-->
+                <!--else-->
+                cart.push(id);
 
                 $.ajax({
                     url: 'cart',
@@ -100,5 +103,18 @@
                 <!--document.getElementById('mycart').value = cart;-->
             });
 
+    </script>
+
+    <script>
+        var cis = {{ ids }};
+        <!--var sum = 0;-->
+        $(document.body).ready(function() {
+            $.each( cis, function( index, value ){
+                <!--sum += value;-->
+                var id = '#'+value;
+                $(id).hide();
+            });
+            <!--console.log(sum);-->
+        });
     </script>
 </html>

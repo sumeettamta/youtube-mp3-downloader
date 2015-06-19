@@ -9,9 +9,12 @@ from rest_framework import generics
 def cart(request):
     csongs = []
     u = User.objects.get(pk=request.session['m_id'])
+    if 'rcart' in request.GET and request.GET['rcart']:
+        cs = Songs.objects.get(id=request.GET['rcart'])
+        cart = CartItem.objects.get(user=u)
+        cart.song.remove(cs)
     if 'cart' in request.GET and request.GET['cart']:
         cs = Songs.objects.get(id=request.GET['cart'])
-        # cart = cart.split(',')
         cart, created = CartItem.objects.get_or_create(user=u)
         cart.save()
         cart.song.add(cs)

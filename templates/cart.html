@@ -3,6 +3,7 @@
 <html>
     <head lang="en">
         <link rel="stylesheet" type="text/css" href="{% static "styles/style.css" %}">
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <meta charset="UTF-8">
         <title>
             Cart Items
@@ -15,7 +16,7 @@
                 <p>You have {{ csongs|length }} song{{ songs|pluralize }} in your cart.</p>
                 <ul>
                     {% for song in csongs %}
-                    <li>{{ song.title }}</li>
+                    <li>{{ song.title }}<a href="#" class="removefromcart" id="{{ song.id }}"><img src="http://icons.iconarchive.com/icons/dryicons/aesthetica-2/128/remove-icon.png" width="15px" height="15px"></a></li>
                     <!--<a href="{% static song.song.local_link %}">Click to Play</a>-->
                     {% endfor %}
                 </ul>
@@ -26,4 +27,28 @@
             <a href="/home">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/cart/checkout">Checkout</a>
         </div>
     </body>
+    <script>
+        var rcart = [];
+        $(document.body).on('click', '.removefromcart', function(event) {
+                event.preventDefault();
+                id = (this.id);
+                console.log(id);
+                var b = '#'+id;
+                $(b).parent().hide();
+                rcart.push(id);
+                $.ajax({
+                    url: 'cart',
+                    error: function() {
+
+                    },
+                    data: {
+                        'rcart': id,
+                    },
+                    success: function(event) {
+
+                    },
+                    type: 'GET'
+                });
+            });
+    </script>
 </html>
