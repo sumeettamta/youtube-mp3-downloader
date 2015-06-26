@@ -24,7 +24,7 @@
                 <p>Empty Cart</p>
             {% endif %}
             <br>
-            <a href="/home">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/cart/checkout">Checkout</a>
+            <a href="/home">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/cart/checkout/">Checkout</a>
         </div>
     </body>
     <script>
@@ -37,7 +37,7 @@
                 $(b).parent().hide();
                 rcart.push(id);
                 $.ajax({
-                    url: 'cart',
+                    url: '/cart/',
                     error: function() {
 
                     },

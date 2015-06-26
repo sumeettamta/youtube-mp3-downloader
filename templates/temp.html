@@ -1,4 +1,5 @@
 {% load embed %}
+{% load static %}
 {% if error %}
     <p style="text-align: center;">No more to show</p>
 {% else %}
@@ -7,9 +8,11 @@
             <ui class="base">
                 <!--<img src={{ song.thumbnail }} height="150px" width="100%">-->
                 <iframe width="100%" height="150px" src={{ song.youtube_link|embed }} frameborder="0" allowfullscreen></iframe>
-                <strong>{{ song.title }}</strong><br><br>
-                <input class="addtocart" id="{{ song.id }}" type="submit" value="Add to cart">
-                <!--<a target="_blank" href={{ song.youtube_link }}>Show on YouTube</a>-->
+                <strong>{{ song.title }}</strong><br>
+                <p>View Count : {{ song.view_count }}</p>
+                <p>Download Count : {{ song.download_count }}</p>
+                {% if utype == 'N' %}<input class="addtocart" id="{{ song.id }}" type="submit" value="Add to cart">{% endif %}
+                {% if utype == 'P' %}<a href="{% static song.local_link %}">Download</a>{% endif %}
             </ui>
 
     {% endfor %}

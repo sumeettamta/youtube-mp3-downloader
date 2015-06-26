@@ -32,7 +32,6 @@ def auth_view(request):
     if user is not None:
             request.session['m_id'] = user.id
             auth.login(request, user)
-            print "here"
             return HttpResponseRedirect('/home')
     else:
         return render(request, 'loginhome.html', {'songs': songs, 'error': True})
@@ -43,7 +42,6 @@ def logout(request):
     return HttpResponseRedirect('/')
 
 def register(request):
-    print request.POST
     if 'm_id' in request.session:
         return HttpResponseRedirect('/home')
     else:

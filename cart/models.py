@@ -3,7 +3,7 @@ from downloads.models import Songs
 from User.models import User
 
 class CartItem(models.Model):
-    user = models.ForeignKey(User, default=1)
+    user = models.OneToOneField(User)
     created = models.DateTimeField(auto_now_add=True, auto_now=False)
     updated = models.DateTimeField(auto_now_add=False, auto_now=True)
     song = models.ManyToManyField(Songs)

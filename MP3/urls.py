@@ -45,12 +45,13 @@ urlpatterns = [
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^home', views.home, name='home'),
     url(r'^temp', views.temp, name='temp'),
-    url(r'^cart$', cart, name='cart'),
-    url(r'^cart/checkout$', checkout, name='checkout'),
+    url(r'^search/', views.search, name='search'),
+    url(r'^cart/$', cart, name='cart'),
+    url(r'^cart/checkout/$', checkout, name='checkout'),
 
     url(r'^', include('downloads.urls')),
     # url(r'^', include('cart.urls')),
-
+    url(r'^oauth2/', include('oauth2.urls', namespace="oauth2")),
 
     url(r'^$', views.loginhome, name='loginhome'),
     # url(r'^', include(router.urls)),

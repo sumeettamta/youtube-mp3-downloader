@@ -16,7 +16,7 @@
                 <ul>
                     {% for song in csongs %}
                     <li>{{ song.title }}</li>
-                    <a href="{% static song.local_link %}">Click to Download</a>
+                    <a href="{% static song.local_link %}" download>Click to Download</a>
                     {% endfor %}
                 </ul>
             {% else %}

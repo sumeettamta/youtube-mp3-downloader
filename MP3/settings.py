@@ -46,6 +46,7 @@ INSTALLED_APPS = (
     'downloads',
     'User',
     'cart',
+    'oauth2',
 )
 
 MIDDLEWARE_CLASSES = (

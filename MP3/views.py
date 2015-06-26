@@ -1,12 +1,19 @@
 from django.shortcuts import render
 from downloads.models import Songs, UserHistory
 from User.models import User
-from django.http import HttpResponseRedirect, Http404
+from django.http import HttpResponseRedirect, Http404, HttpResponse
 import urllib
 import json
 import os
 import youtube_dl
+import pdb
 from cart.models import CartItem
+from oauth2.views import index
+
+try:
+    from django.utils import simplejson
+except:
+    import simplejson
 
 opt = {
     'format': 'bestaudio/best',
@@ -19,16 +26,17 @@ opt = {
 
 def home(request):
     if 'm_id' in request.session:
+        details = index(request)
+        # details = details[:9]
         user = User.objects.get(id=request.session['m_id'])
         songs = Songs.objects.all().order_by('-id')[:9]
-        uc, created = CartItem.objects.get_or_create(user__id=request.session['m_id'])
+        uc, created = CartItem.objects.get_or_create(user=user)
         if created:
             uc.save()
         csongs = uc.song.all()
         ids = []
         for song in csongs:
             ids.append(song.id)
-        print ids
         lp = "https://www.youtube.com/watch?v="
         if 'dl' in request.GET and request.GET['dl']:
             dl = request.GET['dl']
@@ -43,6 +51,10 @@ def home(request):
                 yl = Songs.objects.get(youtube_link=dl)
                 yl.download_count += 1
                 yl.save()
+                us, created = UserHistory.objects.get_or_create(user=user)
+                if created:
+                    us.save()
+                us.song.add(yl)
                 return render(request, 'home.html', {'songs': songs})
             except Songs.DoesNotExist:
                 try:
@@ -59,33 +71,30 @@ def home(request):
                               view_count=r['view_count'], like_count=r['like_count'], unlike_count=r['dislike_count'], \
                               download_count=1, thumbnail=thumbnail)
                     p.save()
-                    user, created = User.objects.get_or_create(id=request.session['m_id'])
+                    us, created = UserHistory.objects.get_or_create(user=user)
                     if created:
-                        us = UserHistory(user=user)
                         us.save()
-                        us.song.add(p)
-                    else:
-                        us = UserHistory.objects.get(user=user)
-                        us.song.add(p)
+                    us.song.add(p)
                     os.chdir(cwd)
-                    return render(request, 'home.html', {'songs': songs, 'name': user.first_name, 'ids': ids})
+                    return render(request, 'home.html', {'songs': songs, 'name': user.first_name, 'ids': ids, 'utype': user.user_type, 'details': details})
                 except Exception:
-                    return render(request, 'home.html', {'songs': songs, 'name': user.first_name, 'error': True, 'ids': ids})
+                    return render(request, 'home.html', {'songs': songs, 'name': user.first_name, 'error': True, 'ids': ids, 'utype': user.user_type, 'details': details})
         else:
-            return render(request, 'home.html', {'songs': songs, 'name': user.first_name, 'ids': ids})
+            return render(request, 'home.html', {'songs': songs, 'name': user.first_name, 'ids': ids, 'utype': user.user_type, 'details': details})
     else:
-        return HttpResponseRedirect('/accounts/login')
+        return HttpResponseRedirect('/')
 
 
 def temp(request):
     total_data = Songs.objects.all().count()
+    user = User.objects.get(id=request.session['m_id'])
     if 'count' in request.GET and request.GET['count']:
         c = request.GET['count']
         t = int(c)
         if t-3 < total_data:
             temps = Songs.objects.all().order_by('-id')[:t]
             songs = temps[t-3:t]
-            return render(request, 'temp.html', {'songs': songs})
+            return render(request, 'temp.html', {'songs': songs, 'utype': user.user_type})
         else:
             raise Http404
     else:
@@ -100,3 +109,27 @@ def loginhome(request):
         context = {'songs': songs}
         template = 'loginhome.html'
         return render(request, template, context)
+
+
+
+def search(request):
+    if request.is_ajax():
+        search_qs = Songs.objects.filter(title__icontains=request.GET['term'])
+        results = []
+        for r in search_qs:
+            r_json = {}
+            r_json['id'] = r.id
+            r_json['label'] = r.title
+            r_json['value'] = r.title
+            results.append(r_json)
+        data = json.dumps(results)
+        mimetype = 'application/json'
+        return HttpResponse(data, mimetype)
+    else:
+        songs = Songs.objects.filter(title__icontains=request.GET['search'])
+        context = {'songs': songs, 'res': True}
+        template = 'home.html'
+        return render(request, template, context)
+
+
+

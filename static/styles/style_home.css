@@ -51,3 +51,8 @@
     width:27.5%;
 
 }
+
+.cat {
+    float: left;
+    text-align:left;
+}

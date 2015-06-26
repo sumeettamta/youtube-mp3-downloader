@@ -30,7 +30,7 @@ class UserHistory(models.Model):
     """
     user = models.ForeignKey(User, null=True, blank=False)
     song = models.ManyToManyField(Songs)
-    datetime = models.DateTimeField(auto_now=True)
+    datetime = models.DateTimeField(auto_now_add=False, auto_now=True)
 
     def __str__(self):
         return self.user.first_name

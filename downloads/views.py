@@ -1,12 +1,13 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from downloads.models import Songs, UserHistory
-from apiclient.discovery import build
-from apiclient.errors import HttpError
+from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
 import youtube_dl
 import os
 from rest_framework import generics
 from downloads.serializers import SongsSerializer
+from User.models import User
 
 DEVELOPER_KEY = "AIzaSyAauLfeOKokwDqETGYcW7ppEP81JWVq15I"
 YOUTUBE_API_SERVICE_NAME = "youtube"
@@ -66,12 +67,16 @@ def download(request):
 
 def userhistory(request):
     songs = []
-    try:
-        uh = UserHistory.objects.get(user__id=request.session['m_id'])
-        songs = uh.song.all()
-        return render(request, 'history.html', {'songs': songs})
-    except:
-        return render(request, 'history.html', {'songs': songs})
+    user = User.objects.get(id=request.session['m_id'])
+    uh, created = UserHistory.objects.get_or_create(user=user)
+    if created:
+        uh.save()
+    if 'down' in request.GET and request.GET['down']:
+        hs = Songs.objects.get(id=request.GET['down'])
+        uh.song.add(hs)
+    songs = uh.song.all()
+    return render(request, 'history.html', {'uh': uh, 'songs': songs})
+
 
 
 

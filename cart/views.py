@@ -30,13 +30,12 @@ def checkout(request):
     csongs = []
     if 'm_id' in request.session:
         user = User.objects.get(id=request.session['m_id'])
-        print user
-        try:
-            uh = UserHistory.objects.get(user__id=request.session['m_id'])
-        except:
-            uh = UserHistory(user=user)
+        uh, created = UserHistory.objects.get_or_create(user=user)
+        if created:
             uh.save()
-        uc = CartItem.objects.get(user__id=request.session['m_id'])
+        uc, created = CartItem.objects.get_or_create(user=user)
+        if created:
+            uc.save()
         csongs = uc.song.all()
         for csong in csongs:
             uh.song.add(csong)

@@ -16,12 +16,21 @@
             {% endif %}
             {% if songs %}
                 <p>You have downloaded {{ songs|length }} song{{ songs|pluralize }}.</p>
-                <ul>
+                <p>Lat Update on {{ uh.datetime }}</p>
+                <table style="width:100%">
+                    <tr>
+                        <th>Title</th>
+                        <th>View Count</th>
+                        <th>Download Count</th>
+                    </tr>
                     {% for song in songs %}
-                    <li>{{ song.title }}</li>
-                    <a href="{% static song.local_link %}">Click to Play</a>
+                    <tr>
+                        <td><a href="{% static song.local_link %}"  download>{{ song.title }}</a></td>
+                        <td>{{ song.view_count }}</td>
+                        <td>{{ song.download_count }}</td>
+                    </tr>
                     {% endfor %}
-                </ul>
+                </table>
             {% else %}
                 <p>0 Downloaded Song</p>
             {% endif %}

@@ -1,0 +1,24 @@
+<html>
+  <head>
+    <title>Your Youtube History</title>
+    <style type=text/css>
+      td  { vertical-align: top; padding: 0.5em }
+      img { border:0 }
+    </style>
+  </head>
+  <body>
+    <table border=1>
+      <tr>
+          <th>Title</th>
+          <th>Id</th>
+      </tr>
+      {% for t,i in details %}
+      <tr>
+        <td>{{ t }}</td>
+        <td>{{ i}}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    <form method="GET" action="/oauth2/logout/"><button type="submit" value="Logout">Logout</button></form>
+  </body>
+</html>

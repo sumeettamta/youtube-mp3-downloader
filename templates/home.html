@@ -6,13 +6,14 @@
         <title>Home</title>
         <link rel="stylesheet" type="text/css" href="{% static "styles/style_home.css" %}">
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
     </head>
 
-    <body>
+    <body class="body">
         <div class="main" id="main">
             <div class="headerWrapper">
  				<div class="logo">
- 						<img src="http://upload.wikimedia.org/wikipedia/commons/3/33/Vanamo_Logo.png" width="30px" height="30px">&nbsp;&nbsp;&nbsp;&nbsp;
+ 						<a id="home" href="/home"><img src="http://upload.wikimedia.org/wikipedia/commons/3/33/Vanamo_Logo.png" width="30px" height="30px"></a>&nbsp;&nbsp;&nbsp;&nbsp;
                         <strong>Hi {{ name }}</strong>
  				</div>
  				<div class="navmenu">
@@ -31,27 +32,51 @@
                 {% if error %}
                     <p style="color: red;">Please enter the correct link</p>
                 {% endif %}
-				<form action="{% url 'home' %}" method="get">
-                <input type="text" name="dl" size="50px">
-                <input type="submit" value="Download">
+                {% if utype == 'P' %}
+				<form id="download_form" action="{% url 'home' %}" method="get">
+                    <input id="dl" type="text" name="dl" size="50px" >
+                    <input type="submit" value="Download">
             	</form>
+                {% endif %}
+                <br>
+                <form action="/search/" method="get">
+                    <input name="search" id="txtSearch" type="text" size="50px">
+                    <input type="submit" value="Search">
+                </form>
+
 			</div>
 
 			<div class="three-block" id="t1">
+                {% if res %}<h3>Search results</h3>{% endif %}
+
+                <div class="cat"><h2>Recently Downloaded</h2></div>
                 <ul class="top" id="h1">
                     {% for song in songs %}
-                            <ui class="base">
-                                <!--<img src={{ song.thumbnail }} height="150px" width="100%">-->
-                                <iframe width="100%" height="150px" src={{ song.youtube_link|embed }} frameborder="0" allowfullscreen></iframe>
-                                <strong>{{ song.title }}</strong><br><br>
-                                <input class="addtocart" id="{{ song.id }}" type="submit" value="Add to cart">
-                                <!--<a target="_blank" href={{ song.youtube_link }}>Show on YouTube</a>-->
-                            </ui>
+                        <ui class="base">
+                            <!--<img src={{ song.thumbnail }} height="150px" width="100%">-->
+                            <iframe width="100%" height="150px" src={{ song.youtube_link|embed }} frameborder="0" allowfullscreen></iframe>
+                            <strong>{{ song.title }}</strong><br>
+                            <p>View Count : {{ song.view_count }}</p>
+                            <p>Download Count : {{ song.download_count }}</p>
+                            {% if utype == 'N' %}<input class="addtocart" id="{{ song.id }}" type="submit" value="Add to cart">
+                            {% else %}<a class="download" id="{{ song.id }}" href="{% static song.local_link %}" download>Download</a>{% endif %}
+                        </ui>
+                    {% endfor %}
+                </ul>
+                <div id="bu"><button id="button">Show More</button>{% csrf_token %}</div>
+
+                <div class="cat"><h2>Youtube History</h2></div>
+                <ul class="top">
+                    {% for title,link in details %}
+                        <ui class="base">
+                            <iframe width="100%" height="150px" src={{ link|embed }} frameborder="0" allowfullscreen></iframe>
+                            <strong>{{ title }}</strong><br><br>
+                            <input class="you_down" id="{{ link }}" type="submit" value="Download">
+                        </ui>
                     {% endfor %}
                 </ul>
 			</div>
 
-            <div id="bu"><button id="button">Show More</button>{% csrf_token %}</div>
         </div>
     </body>
 
@@ -76,45 +101,72 @@
     </script>
 
     <script>
-            var cart = [];
-            $(document.body).on('click', '.addtocart', function() {
-                id = (this.id);
-                var b = '#'+id;
-                $(b).hide();
+        $(document.body).on('click', '.addtocart', function() {
+            id = (this.id);
+            var b = '#'+id;
+            $(b).hide();
 
-                <!--if (jQuery.inArray(id, cart) == 0)-->
-                    <!--alert('Song already in cart');-->
-                <!--else-->
-                cart.push(id);
+            $.ajax({
+                url: 'cart',
+                error: function() {
 
-                $.ajax({
-                    url: 'cart',
-                    error: function() {
+                },
+                data: {
+                    'cart': id,
+                },
+                success: function(event) {
 
-                    },
-                    data: {
-                        'cart': id,
-                    },
-                    success: function(event) {
-
-                    },
-                    type: 'GET'
-                });
-                <!--document.getElementById('mycart').value = cart;-->
+                },
+                type: 'GET'
             });
+            <!--document.getElementById('mycart').value = cart;-->
+        });
+    </script>
 
+    <script>
+        $(document.body).on('click', '.download', function() {
+            id = (this.id);
+
+            $.ajax({
+                url: 'history',
+                error: function() {
+
+                },
+                data: {
+                    'down': id,
+                },
+                success: function(event) {
+
+                },
+                type: 'GET'
+            });
+        });
     </script>
 
     <script>
         var cis = {{ ids }};
-        <!--var sum = 0;-->
-        $(document.body).ready(function() {
+        $(document).on('mouseover', '.body', function() {
             $.each( cis, function( index, value ){
-                <!--sum += value;-->
                 var id = '#'+value;
                 $(id).hide();
             });
-            <!--console.log(sum);-->
+        });
+    </script>
+
+    <script>
+        $(function() {
+          $("#txtSearch").autocomplete({
+            source: "/search",
+            minLength: 2,
+          });
+        });
+    </script>
+
+    <script>
+        $(document.body).on('click', '.you_down', function(event) {
+            id = (this.id);
+            document.getElementById('dl').value = id;
+            document.getElementById('download_form').submit();
         });
     </script>
 </html>
